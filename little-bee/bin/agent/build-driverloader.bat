@@ -1,0 +1,1 @@
+go build -o .\bin\agent\driverloader.exe .\agent\driverloader\main\main.go 

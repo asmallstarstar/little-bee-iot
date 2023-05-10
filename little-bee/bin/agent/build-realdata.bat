@@ -1,0 +1,1 @@
+go build -o .\bin\agent\realdata.exe .\agent\realdata\main\main.go 

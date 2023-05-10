@@ -1,0 +1,26 @@
+agent:
+  agent id: 1
+fsu:
+  host: 0.0.0.0
+  port: 50080
+realdata:
+  host: 0.0.0.0
+  port: 50085
+log:
+  agent file name: ./log/agent.log
+  fsu file name: ./log/fsu.log
+  realdata file name: ./log/realdata.log
+  driver loader file name: ./log/driver-loader.log
+  max size: 1 # M
+  max backups: 5
+  max age: 30 # Day
+  level: Debug # Debug Info Warn Error DPanic Panic Fatal
+database:
+  type: mysql #mysql sqlite sqlserver 
+  dsn: root:hPClGYjzOJD03AQl2j0@tcp(127.0.0.1:3306)/little_bee?charset=utf8mb4&parseTime=True&loc=Local
+  log level: 4 # 1:Silent,2:Error,3:Warn,4:Info
+mqtt:
+  broker: tcp://127.0.0.1:1883
+  user name: admin
+  password: admin
+  real data client id: REALDATA

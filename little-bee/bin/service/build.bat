@@ -1,0 +1,1 @@
+go build -o .\bin\service\service.exe .\controller\main\main.go 

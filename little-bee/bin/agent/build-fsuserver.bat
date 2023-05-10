@@ -1,0 +1,1 @@
+go build -o .\bin\agent\fsuserver.exe .\agent\fsu\fsuserver\main\main.go 

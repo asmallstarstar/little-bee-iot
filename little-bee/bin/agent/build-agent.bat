@@ -1,0 +1,1 @@
+go build -o .\bin\agent\agent.exe .\agent\agent\main\main.go 

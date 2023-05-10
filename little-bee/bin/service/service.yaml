@@ -1,0 +1,23 @@
+service:
+  host: :8080
+  url root: /little-bee
+  web run mode: Debug # Release Debug Test
+  jwt secret: xwtKsT&#K32U
+  token expire time: 604800 # unit:second,here are 7 days
+  local: ['zh-CN','en']
+  super user name: admin
+log:
+  file name: ./log/service.log
+  max size: 1 # M
+  max backups: 5
+  max age: 30 # Day
+  level: Debug # Debug Info Warn Error DPanic Panic Fatal
+database:
+  type: mysql #mysql sqlite sqlserver 
+  dsn: root:hPClGYjzOJD03AQl2j0@tcp(127.0.0.1:3306)/little_bee?charset=utf8mb4&parseTime=True&loc=Local
+  log level: 4 # 1:Silent,2:Error,3:Warn,4:Info
+mqtt:
+  broker: tcp://127.0.0.1:1883
+  user name: admin
+  password: admin
+  client id: SERVICE

@@ -1,0 +1,1537 @@
+syntax = "proto3";
+package message;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+
+
+option go_package = "./message/littlebee";
+
+enum SignalDiValueEnum {
+    SIGNAL_DI_VALUE_0      = 0;
+    SIGNAL_DI_VALUE_1      = 1;
+}
+
+enum SignalEventTypeEnum{
+    SIGNAL_EVENT_TYPE_UNKNOWN = 0;
+    SIGNAL_EVENT_TYPE_BEGIN   = 1;
+    SIGNAL_EVENT_TYPE_END     = 2;
+}
+
+enum SignalTypeEnum{
+    SIGNAL_TYPE_UNKNOWN = 0;
+    SIGNAL_TYPE_AI      = 1;
+    SIGNAL_TYPE_DI      = 2;
+    SIGNAL_TYPE_SI      = 3;
+    SIGNAL_TYPE_AO      = 4;
+    SIGNAL_TYPE_DO      = 5;
+    SIGNAL_TYPE_SO      = 6;
+    SIGNAL_TYPE_VAI     = 7;
+    SIGNAL_TYPE_VDI     = 8;
+    SIGNAL_TYPE_VSI     = 9;
+    SIGNAL_TYPE_VIDEO   = 10;
+}
+
+enum SignalValueTypeEnum{
+    SIGNAL_VALUE_TYPE_UNKNOWN  = 0;
+    SIGNAL_VALUE_TYPE_ANALOG   = 1;
+    SIGNAL_VALUE_TYPE_DIGITAL  = 2;
+    SIGNAL_VALUE_TYPE_STRING   = 3;
+}
+
+enum SignalValueStateEnum{
+    SIGNAL_VALUE_STATE_UNKNOWN     = 0;
+    SIGNAL_VALUE_STATE_INVALID     = 1;
+    SIGNAL_VALUE_STATE_VALID       = 2;
+}
+
+enum SignalRunStateEnum{
+    SIGNAL_RUN_STATE_UNKNOWN     = 0;
+    SIGNAL_RUN_STATE_NORMAL      = 1;
+    SIGNAL_RUN_STATE_ALARM       = 2;
+}
+
+enum AlarmAckStateEnum{
+    ALARM_ACK_STATE_UNKNOWN        = 0;
+    ALARM_ACK_STATE_CONFIRMED      = 1;
+    ALARM_ACK_STATE_UNCONFIRMED    = 2;
+}
+
+enum ControlCommandTypeEnum{
+    CONTROL_COMMAND_TYPE_UNKNOWN       = 0;
+    CONTROL_COMMAND_TYPE_TRUN_ON       = 1;
+    CONTROL_COMMAND_TYPE_TRUN_OFF      = 2;
+    CONTROL_COMMAND_TYPE_STRIKE        = 3;
+    CONTROL_COMMAND_TYPE_ANALOG        = 4;
+    CONTROL_COMMAND_TYPE_STRING        = 5;
+}
+
+enum ControlCommandResultEnum{
+    CONTROL_COMMAND_RESULT_UNKNOWN     = 0;
+    CONTROL_COMMAND_RESULT_RECEIVED    = 1;
+    CONTROL_COMMAND_RESULT_DELIVERING  = 2;
+    CONTROL_COMMAND_RESULT_RUNNING     = 3;
+    CONTROL_COMMAND_RESULT_SUCCESS     = 4;
+    CONTROL_COMMAND_RESULT_FAIL        = 5;
+    CONTROL_COMMAND_RESULT_TIMEOUT     = 6;
+}
+
+enum ThresholdDirectionEnum{
+    THRESHOLD_DIRECTION_UNKNOWN  = 0;
+    THRESHOLD_DIRECTION_LESS     = 1;
+    THRESHOLD_DIRECTION_GREAT    = 2;
+    THRESHOLD_DIRECTION_EQUAL    = 3;
+}
+
+enum FsuDataParsingTypeEnum{
+    FSU_DATA_PARSING_TYPE_UNKNOWN= 0;
+    FSU_DATA_PARSING_TYPE_BOTTOM = 1;
+    FSU_DATA_PARSING_TYPE_CENTER = 2;
+}
+
+enum FsuRunStateEnum{
+    FSU_RUN_STATE_UNKNOWN         = 0;
+    FSU_RUN_STATE_INITIALING      = 1;
+    FSU_RUN_STATE_CONNECTING      = 2;
+    FSU_RUN_STATE_CONNECTED       = 3;
+    FSU_RUN_STATE_DISCONNECTED    = 4;
+    FSU_RUN_STATE_SERVING         = 5;
+    FSU_RUN_STATE_STOPPED         = 6;
+}
+
+enum SignalTreeObjectTypeEnum{
+    SIGNAL_TREE_OBJECT_TYPE_UNKNOWN         = 0;
+    SIGNAL_TREE_OBJECT_TYPE_CENTER          = 1;
+    SIGNAL_TREE_OBJECT_TYPE_AREA            = 2;
+    SIGNAL_TREE_OBJECT_TYPE_DEVICE          = 3;
+    SIGNAL_TREE_OBJECT_TYPE_SIGNAL          = 4;
+}
+
+enum AgentObjectTypeEnum{
+    AGENT_OBJECT_TYPE_SURVEILLANCE_CENTER = 0;
+    AGENT_OBJECT_TYPE_AGENT               = 1;
+    AGENT_OBJECT_TYPE_FSU                 = 2;
+    AGENT_OBJECT_TYPE_DRIVER              = 3;
+}
+
+enum MetadataAttributeTypeEnum{
+    METADATA_ATTRIBUTE_TYPE_UNKNOWN = 0;
+    METADATA_ATTRIBUTE_TYPE_SIMPLE  = 1;
+    METADATA_ATTRIBUTE_TYPE_ARRAY   = 2;
+    METADATA_ATTRIBUTE_TYPE_ENUM    = 3;
+}
+
+enum MetadataValueTypeEnum{
+    METADATA_VALUE_TYPE_UNKNOWN = 0;
+    METADATA_VALUE_TYPE_INT     = 1;
+    METADATA_VALUE_TYPE_LONG    = 2;
+    METADATA_VALUE_TYPE_FLOAT   = 3;
+    METADATA_VALUE_TYPE_DOUBLE  = 4;
+    METADATA_VALUE_TYPE_STRING  = 5;
+    METADATA_VALUE_TYPE_BOOLEAN = 6;
+}
+
+message EnumValueItem{
+    //@gotags: json:"enumValueItemName"
+    string  enum_value_item_name                     = 1;
+    //@gotags: json:"enumValueItemAlias"
+    string  enum_value_item_alias                    = 2;
+    //@gotags: json:"enumValueItemValue"
+    string  enum_value_item_value                    = 3;
+}
+
+message MetadataAttribute{
+    //@gotags: json:"metadataAttributeName"
+    string metadata_attribute_name                                       = 1;
+    //@gotags: json:"metadataAttributeAlias"
+    string metadata_attribute_alias                                      = 2;
+    //@gotags: json:"metadataAttributeTypeEnum"
+    MetadataAttributeTypeEnum         metadata_attribute_type            = 3;
+    //@gotags: json:"metadataValueTypeEnum"
+    MetadataValueTypeEnum             metadata_value_type                = 4;
+    //@gotags: json:"enumValueItem"
+    repeated EnumValueItem            enum_value_item                    = 5;
+    //@gotags: json:"metadataAttributeValue"
+    string    metadata_attribute_value                                   = 6;
+    //@gotags: json:"metadataAttributeArrayValue"
+    repeated string    metadata_attribute_array_value                    = 7;
+    //@gotags: json:"metadataAttributeInputValue"
+    string    metadata_attribute_input_value                             = 8;
+}
+
+message Metadata{
+    //@gotags: json:"metadataId" gorm:"primary_key;AUTO_INCREMENT" structs:"metadata_id"
+    int32                      metadata_id             = 1;
+    //@gotags: json:"metadataName" structs:"metadata_name"
+    string                     metadata_name           = 2;
+    //@gotags: json:"metadataAlias" structs:"metadata_alias"
+    string                     metadata_alias          = 3;
+    //@gotags: json:"metadataAttributeJson" structs:"metadata_attribute_json"
+    string                     metadata_attribute_json = 4;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at               = 5;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                                = 6;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at               = 7;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                                = 8;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                                = 9;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at               = 10;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                                = 11;
+}
+
+message MetadataList {
+    repeated Metadata items = 1;
+}
+
+message Configure {
+    //@gotags: json:"configureId" gorm:"primary_key;AUTO_INCREMENT" structs:"configure_id"
+    int32 configure_id                                 = 1;
+    //@gotags: json:"metadataId" structs:"metadata_id"
+    int32 metadata_id                                  = 2;
+    //@gotags: json:"configureJson" structs:"configure_json"
+    string configure_json                              = 3;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at               = 5;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                                = 6;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at               = 7;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                                = 8;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                                = 9;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at               = 10;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                                = 11;
+}
+
+message ConfigureList {
+    repeated Configure items = 1;
+}
+
+message SignalIdsList{
+    repeated int32 signal_ids = 1;
+}
+
+message SignalRawEvent{
+    int32                     signal_id           = 1;
+    string                    signal_name         = 2;
+    SignalTypeEnum            signal_type         = 3;
+    google.protobuf.Timestamp event_occurred_time = 4;
+    string                    event_desc          = 5;
+    SignalEventTypeEnum       signal_event_type   = 6;
+    google.protobuf.Timestamp alarm_begin_time    = 7;
+    SignalValueStateEnum      signal_value_state  = 8;
+    SignalRunStateEnum        signal_run_state    = 9;
+    int32                     alarm_level_number  = 10;
+    int32                 alarm_threshhold_number = 11;
+    SignalValueTypeEnum       signal_value_type   = 12;
+    int32                     digital_value       = 13;
+    double                    analog_value        = 14;
+    string                    value_unit          = 15;
+    string                    string_value        = 16;
+}
+
+message SignalCurrentStata{
+    int32                     signal_id                  = 1;
+    SignalValueStateEnum      signal_value_state         = 2;
+    SignalRunStateEnum        signal_run_state           = 3;
+    int32                     alarm_threshhold_number    = 4;
+    google.protobuf.Timestamp alarm_begin_time           = 5;
+    int32                     alarm_level_number         = 6;
+}
+
+message SignalRealValue{
+    int32                     signal_id              = 1;
+    int32                     signal_unification_id  = 2;
+    string                    signal_name            = 3;
+    SignalTypeEnum            signal_type            = 4;
+    SignalValueStateEnum      signal_value_state     = 5;
+    SignalRunStateEnum        signal_run_state       = 6;
+    int32                     alarm_threshhold_number= 7;
+    int32                     alarm_level_number     = 8;
+    google.protobuf.Timestamp value_occurred_time    = 9;
+    SignalValueTypeEnum       signal_value_type      = 10;
+    int32                     digital_value          = 11;
+    double                    analog_value           = 12;
+    string                    value_unit             = 13;
+    int32                     decimal_precision      = 14;
+    string                    string_value           = 15;
+    string                    digital_value_desc     = 16;
+}
+
+message SignalRealValueList{
+    repeated SignalRealValue items = 1;
+}
+
+message AlarmLevel{
+    //@gotags: json:"alarmLevelId" gorm:"primary_key;AUTO_INCREMENT" structs:"alarm_level_id"
+    int32             alarm_level_id                  = 1;
+    //@gotags: json:"alarmLevelNumber" structs:"alarm_level_number"
+    int32             alarm_level_number              = 2;
+    //@gotags: json:"alarmLevelName" structs:"alarm_level_name"
+    string            alarm_level_name                = 3;
+    //@gotags: json:"alarmLevelAlias" structs:"alarm_level_alias"
+    string            alarm_level_alias               = 4;
+    //@gotags: json:"alarmLevelNote" structs:"alarm_level_note"
+    string            alarm_level_note                = 5;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at              = 6;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                               = 7;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at              = 8;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                               = 9;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                               = 10;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at              = 11;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                               = 12;
+}
+
+message AlarmLevelList{
+    repeated AlarmLevel items = 1;
+}
+
+message Alarm{
+    //@gotags: json:"alarmSerialNumber" gorm:"primary_key;" structs:"alarm_serial_number"
+    string                    alarm_serial_number          = 1;
+    //@gotags: json:"signalId" structs:"signal_id"
+    int32                     signal_id                    = 2;
+    //@gotags: json:"signalName" structs:"signal_name"
+    string                    signal_name                  = 3;
+    //@gotags: json:"signalType" structs:"signal_type"
+    SignalTypeEnum            signal_type                  = 4;
+    //@gotags: json:"alarmBeginTime" gorm:"serializer:pbtimestamp;type:time" structs:"alarm_begin_time"
+    google.protobuf.Timestamp alarm_begin_time             = 5;
+   //@gotags: json:"alarmEndTime" gorm:"serializer:pbtimestamp;type:time" structs:"alarm_end_time"
+    google.protobuf.Timestamp alarm_end_time               = 6;
+    //@gotags: json:"deviceLocation" structs:"device_location"
+    string                    device_location              = 7;
+    //@gotags: json:"deviceName" structs:"device_name"
+    string                    device_name                  = 8;
+    //@gotags: json:"deviceTypeId" structs:"device_type_id"
+    int32                     device_type_id                  = 9;
+    //@gotags: json:"alarmDesc" structs:"alarm_desc"
+    string                    alarm_desc                   = 10;
+    //@gotags: json:"alarmLevelNumber" structs:"alarm_level_number"
+    int32                     alarm_level_number           = 11;
+    //@gotags: json:"alarmThreshholdNumber" structs:"alarm_threshhold_number"
+    int32                     alarm_threshhold_number      = 12;
+    //@gotags: json:"signalValueType" structs:"signal_value_type"
+    SignalValueTypeEnum       signal_value_type            = 13;
+    //@gotags: json:"occurredDigitalValue" structs:"occurred_digital_value"
+    int32                     occurred_digital_value       = 14;
+    //@gotags: json:"occurredAnalogValue" structs:"occurred_analog_value"
+    double                    occurred_analog_value        = 15;
+    //@gotags: json:"valueUnit" structs:"value_unit"
+    string                    value_unit                   = 16;
+    //@gotags: json:"occurredStringValue" structs:"occurred_string_value"
+    string                    occurred_string_value        = 17;
+    //@gotags: json:"ackState" structs:"ack_state"
+    AlarmAckStateEnum         ack_state                    = 18;
+    //@gotags: json:"ackTime" gorm:"serializer:pbtimestamp;type:time" structs:"ack_time"
+    google.protobuf.Timestamp ack_time                     = 19;
+    //@gotags: json:"ackUserId" structs:"ack_user_id"
+    int32                     ack_user_id                  = 20;
+    //@gotags: json:"ackUserName" structs:"ack_user_name"
+    string                    ack_user_name                = 21;
+}
+
+message AlarmList{
+    repeated Alarm items = 1;
+}
+
+message BeginAlarm {
+    string                    alarm_serial_number          = 1;
+    int32                     signal_id                    = 2;
+    string                    signal_name                  = 3;
+    SignalTypeEnum            signal_type                  = 4;
+    google.protobuf.Timestamp alarm_begin_time             = 5;
+    string                    device_location              = 6;
+    string                    device_name                  = 7;
+    int32                     device_type_id               = 8;
+    string                    alarm_desc                   = 9;
+    int32                     alarm_level_number           = 10;
+    int32                     alarm_threshhold_number      = 11;
+    SignalValueTypeEnum       signal_value_type            = 12;
+    int32                     occurred_digital_value       = 13;
+    double                    occurred_analog_value        = 14;
+    string                    value_unit                   = 15;
+    string                    occurred_string_value        = 16;
+}
+
+message EndAlarm{
+    string                    alarm_serial_number = 1;
+    int32                     signal_id           = 2;
+    google.protobuf.Timestamp alarm_begin_time    = 3;
+    google.protobuf.Timestamp alarm_end_time      = 4;
+    string                    alarm_desc          = 5;
+}
+
+message AckAlarm{
+    string                    alarm_serial_number = 1;
+    int32                     signal_id           = 2;
+    google.protobuf.Timestamp alarm_begin_time    = 3;
+    google.protobuf.Timestamp ack_time            = 4;
+    string                    ack_user_id         = 5;
+    string                    ack_user_name       = 6;
+}
+
+message AlarmListWithPage{
+    repeated Alarm   items = 1;
+    bool           hasMore = 2;
+    string     pagingState = 3;
+}
+
+message ControlCommandRecord{
+     //@gotags: json:"controlCommandSerialNumber" gorm:"primary_key;" structs:"control_command_serial_number"
+    string                         control_command_serial_number  = 1;
+    //@gotags: json:"operatorUserId" structs:"operator_user_id"
+    string                         operator_user_id               = 2;
+    //@gotags: json:"operatorUserName" structs:"operator_user_name"
+    string                         operator_user_name             = 3;
+    //@gotags: json:"signalId" structs:"signal_id"
+    int32                          signal_id                      = 4;
+    //@gotags: json:"operateTime" gorm:"serializer:pbtimestamp;type:time" structs:"operate_time"
+    google.protobuf.Timestamp      operate_time                   = 5;
+    //@gotags: json:"controlCommandType" structs:"control_command_type"
+    ControlCommandTypeEnum         control_command_type           = 6;
+    //@gotags: json:"controlCommandResult" structs:"control_command_result"
+    ControlCommandResultEnum       control_command_result         = 7;
+    //@gotags: json:"delay" structs:"delay"
+    int32                          delay                          = 8;
+    //@gotags: json:"digitalValue" structs:"digital_value"
+    int32                          digital_value                  = 9;
+    //@gotags: json:"analogValue" structs:"analog_value"
+    double                         analog_value                   = 10;
+    //@gotags: json:"stringValue" structs:"string_value"
+    string                         string_value                   = 11;
+}
+
+message ControlCommandRecordList{
+    repeated ControlCommandRecord items               =1;
+}
+
+message ControlCommandResponse {
+    string              control_command_serial_number  = 1;
+    bool                control_command_receive_result = 2;
+}
+
+message LogicObject{
+    //@gotags: json:"logicObjectId" gorm:"primary_key;AUTO_INCREMENT" structs:"logic_object_id"
+    int32    logic_object_id                      = 1;
+    //@gotags: json:"logicObjectName" structs:"logic_object_name"
+    string   logic_object_name                    = 2;
+    //@gotags: json:"logicObjectAlias" structs:"logic_object_alias"
+    string   logic_object_alias                   = 3;
+    //@gotags: json:"industrialInternetId" structs:"industrial_internet_id"
+    string   industrial_internet_id               = 4;
+    //@gotags: json:"parentLogicObjectId" structs:"parent_logic_object_id"
+    int32    parent_logic_object_id               = 5;
+    //@gotags: json:"logicObjectTypeId" structs:"logic_object_type_id"
+    int32    logic_object_type_id                 = 6;
+    //@gotags: json:"metadataId" structs:"metadata_id"
+    int32    metadataId                          = 7;
+    //@gotags: json:"configureId" structs:"configure_id"
+    int32    configure_id                         = 8;
+    //@gotags: json:"positionAmongBrothers" structs:"position_among_brothers"
+    int32    position_among_brothers              = 9;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 10;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 11;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 12;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 13;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 14;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 15;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 16;
+}
+
+message LogicObjectList{
+    repeated LogicObject items = 1;
+}
+
+message LogicArea{
+    //@gotags: json:"logicObjectId" gorm:"primary_key;" structs:"logic_object_id"
+    int32    logic_object_id                      = 1;
+    //@gotags: json:"areaAlias" structs:"area_alias"
+    string   area_alias                           = 2;
+    //@gotags: json:"areaType" structs:"area_type"
+    int32    area_type                            = 3;
+}
+
+message LogicAreaList {
+    repeated LogicArea items = 1;
+}
+
+message LogicDevice{
+    //@gotags: json:"logicObjectId" gorm:"primary_key;" structs:"logic_object_id"
+    int32    logic_object_id                      = 1;
+    //@gotags: json:"deviceAlias" structs:"device_alias"
+    string   device_alias                         = 2; 
+    //@gotags: json:"deviceType" structs:"device_type"
+    int32    device_type                          = 3;
+}
+
+message LogicDeviceList {
+    repeated LogicDevice items = 1;
+}
+
+message LogicObjectExtend{
+    LogicObject   logicObject     = 1;
+    LogicArea     logicArea       = 2;
+    LogicDevice   logicDevice     = 3;
+    Configure     logicConfigure  = 4;
+}
+
+message AreaType{
+    //@gotags: json:"areaTypeId" gorm:"primary_key;AUTO_INCREMENT" structs:"area_type_id" 
+    int32    area_type_id                           = 1;
+    //@gotags: json:"areaTypeName" structs:"area_type_name"
+    string   area_type_name                         = 2;
+    //@gotags: json:"areaTypeNote" structs:"area_type_note"
+    string    area_type_note                         = 3;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at             = 4;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                              = 5;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at              = 6;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                               = 7;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                               = 8;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at              = 9;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                               = 10;
+}
+
+message AreaTypeList {
+    repeated AreaType items = 1;
+}
+
+message DeviceType{
+    //@gotags: json:"deviceTypeId" gorm:"primary_key;AUTO_INCREMENT" structs:"device_type_id"
+    int32    device_type_id                           = 1;
+    //@gotags: json:"deviceTypeName" structs:"device_type_name"
+    string   device_type_name                         = 2;
+    //@gotags: json:"deviceTypeNote" structs:"device_type_note"
+    string    device_type_note                         = 3;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at               = 4;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                = 5;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at               = 6;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                = 7;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                = 8;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at               = 9;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                = 10;
+}
+
+message DeviceTypeList {
+    repeated DeviceType items = 1;
+}
+
+message SignalThreshold {
+    //@gotags: json:"threshholdId" gorm:"primary_key;AUTO_INCREMENT" structs:"threshhold_id"
+    int32                       threshold_id         = 1;
+    //@gotags: json:"signalId" structs:"signal_id"
+    int32                       signal_id             = 2;
+    //@gotags: json:"signalType" structs:"signal_type"
+    SignalTypeEnum              signal_type           = 3;
+    //@gotags: json:"threshholdNumber" structs:"threshhold_number"
+    int32                       threshold_number     = 4; 
+    //@gotags: json:"threshholdValueAi" structs:"threshhold_value_ai"
+    double                      threshold_value_ai   = 5;
+    //@gotags: json:"threshholdValueDi" structs:"threshhold_value_di"
+    int32                       threshold_value_di   = 6;
+    //@gotags: json:"threshholdDirection" structs:"threshhold_direction"
+    ThresholdDirectionEnum     threshold_direction  = 7;
+    //@gotags: json:"threshholdDeadArea" structs:"threshhold_dead_area"
+    double                      threshold_dead_area  = 8;
+    //@gotags: json:"isNotify" structs:"is_notify"
+    bool                        is_notify             = 9;
+    //@gotags: json:"alarmLevelNumber" structs:"alarm_level_number"
+    int32                       alarm_level_number    = 10;
+    //@gotags: json:"upNotifyNote" structs:"up_notify_note"
+    string                      up_notify_note        = 11;
+    //@gotags: json:"downNotifyNote" structs:"down_notify_note"
+    string                      down_notify_note      = 12;
+    //@gotags: json:"alarmDelay" structs:"alarm_delay"
+    int32                       alarm_delay           = 13;
+    //@gotags: json:"recoverAlarmDelay" structs:"recover_alarm_delay"
+    int32                       recover_alarm_delay   = 14;
+}
+
+message SignalThresholdList {
+    repeated SignalThreshold items = 1;
+}
+
+message Signal {
+    //@gotags: json:"signalId" gorm:"primary_key;AUTO_INCREMENT" structs:"signal_id"
+    int32                 signal_id                   = 1;
+    //@gotags: json:"signalName" structs:"signal_name"
+    string                signal_name                 = 2;
+    //@gotags: json:"signalAlias" structs:"signal_alias"
+    string                signal_alias                 = 3;
+    //@gotags: json:"industrialInternetId" structs:"industrial_internet_id"
+    string                industrial_internet_id      = 4;
+    //@gotags: json:"signalUnificationId" structs:"signal_unification_id"
+    int32                 signal_unification_id       = 5;
+    //@gotags: json:"signalType" structs:"signal_type"
+    SignalTypeEnum        signal_type                 = 6;
+    //@gotags: json:"parentLogicId" structs:"parent_logic_id"
+    int32                 parent_logic_id             = 7;
+    //@gotags: json:"positionAmongBrothers" structs:"position_among_brothers"
+    int32                 position_among_brothers     = 8;
+    //@gotags: json:"applied" structs:"applied"
+    bool                  applied                     = 9;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at               = 10;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                = 11;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at               = 12;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                = 13;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                = 14;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at               = 15;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                = 16;
+}
+
+message SignalList {
+    repeated Signal items = 1;
+}
+
+message SignalDi {
+    //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32     signal_id                               = 1;
+    //@gotags: json:"isFlip" structs:"is_flip"
+    bool      is_flip                                 = 2;
+    //@gotags: json:"recordPeriod" structs:"record_period"
+    int32     record_period                           = 3;
+    //@gotags: json:"highDesc" structs:"high_desc"
+    string    high_desc                               = 4;
+    //@gotags: json:"lowDesc" structs:"low_desc"
+    string    low_desc                                = 5;
+}
+
+message SignalDiList {
+    repeated SignalDi items = 1;
+}
+
+message SignalAi{
+    //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32             signal_id                       = 1;
+    //@gotags: json:"multipleRate" structs:"multiple_rate"
+    double            multiple_rate                   = 2;
+    //@gotags: json:"offsetValue" structs:"offset_value"
+    double            offset_value                    = 3;
+    //@gotags: json:"recordPeriod" structs:"record_period"
+    int32             record_period                   = 4;
+    //@gotags: json:"decimalPrecision" structs:"decimal_precision"
+    int32             decimal_precision               = 5;
+    //@gotags: json:"valueUnit" structs:"value_unit"
+    string            value_unit                      = 6;
+}
+
+message SignalAiList {
+    repeated SignalAi items = 1;
+}
+
+message SignalSi {
+    //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32     signal_id                               = 1;
+    //@gotags: json:"recordPeriod" structs:"record_period"
+    int32     record_period                           = 2;
+}
+
+message SignalSiList {
+    repeated SignalSi items = 1;
+}
+
+message SignalAcquisition{
+     //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32     signal_id                               = 1;
+    //@gotags: json:"agentId" structs:"agent_id"
+    int32     agent_id                                = 2;
+    //@gotags: json:"fsuId" structs:"fsu_id"
+    int32     fsu_id                                  = 3;
+
+    //@gotags: json:"driverId" structs:"driver_id"
+    int32     driver_id                               = 4;
+    //@gotags: json:"x" structs:"x"
+    int32     x                                       = 5;
+    //@gotags: json:"y" structs:"y"
+    int32     y                                       = 6;
+    //@gotags: json:"z" structs:"z"
+    int32     z                                       = 7;
+
+    //@gotags: json:"signalBindMetadataId" structs:"signal_bind_metadata_id"
+    int32     signal_bind_metadata_id                 = 8;
+    //@gotags: json:"signalBindConfigureId" structs:"signal_bind_configure_id"
+    int32     signal_bind_configure_id                = 9;
+}
+
+message SignalAcquisitionList{
+    repeated SignalAcquisition items  = 1;
+}
+
+message SignalVirtual{
+    //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32             signal_id                       = 1;
+    //@gotags: json:"signalExpress" structs:"signal_express"
+    string            signal_express                  = 2;
+}
+
+message SignalVirtualList{
+    repeated SignalVirtual items = 1;
+}
+
+message SignalVideo{
+    //@gotags: json:"signalId" gorm:"primary_key;" structs:"signal_id"
+    int32     signal_id                               = 1;
+    //@gotags: json:"videoPlayType" structs:"video_play_type"
+    int32     video_play_type                         = 2;
+    //@gotags: json:"videoBindMetadataId" structs:"video_bind_metadata_id"
+    int32     video_bind_metadata_id                  = 3;
+    //@gotags: json:"videoBindConfigureId" structs:"video_bind_configure_id"
+    int32     video_bind_configure_id                 = 4;
+}
+
+message SignalVideoList{
+    repeated SignalVideo items = 1;
+}
+
+message Ai {
+    Signal                    signal                  = 1;
+    SignalAcquisition         signalAcquisition       = 2;
+    SignalAi                  signalAi                = 3;
+    repeated SignalThreshold  signalThreshold         = 4;
+    Configure                 signalBindConfigure     = 5;
+}
+
+message AiList {
+    repeated Ai items = 1;
+}
+
+message Di {
+    Signal                    signal                  = 1;
+    SignalAcquisition         signalAcquisition       = 2;
+    SignalDi                  signalDi                = 3;
+    repeated SignalThreshold  signalThreshold        = 4;
+    Configure                 signalBindConfigure     = 5;
+}
+
+message DiList {
+    repeated Di items = 1;
+}
+
+message Si {
+    Signal                    signal                  = 1;
+    SignalAcquisition         signalAcquisition       = 2;
+    SignalSi                  signalSi                = 3;
+    Configure                 signalBindConfigure     = 4;
+}
+
+message SiList {
+    repeated Si items = 1;
+}
+
+message VAi {
+    Signal                    signal                  = 1;
+    SignalVirtual             signalVirtual           = 2;
+    SignalAi                  signalAi                = 3;
+    repeated SignalThreshold signalThreshold        = 4;
+}
+
+message VAIList {
+    repeated VAi items = 1;
+}
+
+message VDi {
+    Signal                    signal                  = 1;
+    SignalVirtual             signalVirtual           = 2;
+    SignalDi                  signalDi                = 3;
+    repeated SignalThreshold signalThreshold        = 4;
+}
+
+message VDIList {
+    repeated VDi items = 1;
+}
+
+message VSi {
+    Signal                    signal                  = 1;
+    SignalVirtual             signalVirtual           = 2;
+    SignalSi                  signalSi                = 3;
+}
+
+message VSIList {
+    repeated VSi items = 1;
+}
+
+message Output {
+    Signal                    signal                  = 1;
+    SignalAcquisition         signalAcquisition       = 2;
+    Configure                 signalBindConfigure     = 4;
+}
+
+message OutputList {
+    repeated Output items = 1;
+}
+
+message Video {
+    Signal                    signal                  = 1;
+    SignalVideo               signalVideo             = 2;
+    Configure                 videoBindConfigure      = 3;
+}
+
+message VideoList {
+    repeated Video items = 1;
+}
+
+message SignalUnification{
+    //@gotags: json:"signalUnificationId" gorm:"primary_key;AUTO_INCREMENT" structs:"signal_unification_id"
+    int32  signal_unification_id                      = 1;
+    //@gotags: json:"signalUnificationName" structs:"signal_unification_name"
+    string signal_unification_name                    = 2;
+    //@gotags: json:"signalUnificationAlias" structs:"signal_unification_alias"
+    string signal_unification_alias                   = 3;
+    //@gotags: json:"signalUnificationRelatedSignalId" structs:"signal_unification_related_signal_id"
+    int32 signal_unification_related_signal_id        = 4;
+    //@gotags: json:"signalUnificationNote" structs:"signal_unification_note"
+    string signal_unification_note                    = 5;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at               = 6;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                = 7;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at               = 8;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                = 9;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                = 10;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at               = 11;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                = 12;
+}
+
+message SignalUnificationList{
+    repeated SignalUnification items = 1;
+}
+
+message Agent{
+    //@gotags: json:"agentId" gorm:"primary_key;AUTO_INCREMENT" structs:"agent_id"
+    int32             agent_id                        = 1;
+    //@gotags: json:"agentName" structs:"agent_name"
+    string            agent_name                      = 2;
+    //@gotags: json:"agentNote" structs:"agent_note"
+    string            agent_note                      = 3;
+    //@gotags: json:"metadataId" structs:"metadata_id"
+    int32             metadata_id                     = 4;
+    //@gotags: json:"configureId" structs:"configure_id"
+    int32             configure_id                    = 5;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at               = 6;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                = 7;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at               = 8;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                = 9;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                = 10;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at               = 11;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                = 12;
+}
+
+message AgentList{
+    repeated Agent items = 1;
+}
+
+message FsuType{
+    //@gotags: json:"fsuTypeId" gorm:"primary_key;AUTO_INCREMENT" structs:"fsu_type_id"
+    int32             fsu_type_id                        = 1;
+    //@gotags: json:"fsuTypeName" structs:"fsu_type_name"
+    string            fsu_type_name                      = 2;
+    //@gotags: json:"dataAnalysisMode" structs:"data_analysis_mode" 
+    int32             data_analysis_mode                 = 3;
+    //@gotags: json:"newInstanceName" structs:"new_instance_name"
+    string            new_instance_name                  = 4;
+    //@gotags: json:"metadataId" structs:"metadata_id"
+    int32             metadata_id                        = 5;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at                  = 6;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                   = 7;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at                  = 8;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                   = 9;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                   = 10;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at                  = 11;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                    = 12;
+}
+
+message FsuTypeList{
+    repeated FsuType items = 1;
+}
+
+message Fsu{
+    //@gotags: json:"fsuId" gorm:"primary_key;AUTO_INCREMENT" structs:"fsu_id"
+    int32             fsu_id                             = 1;
+    //@gotags: json:"fsuTypeId" structs:"fsu_type_id"
+    int32             fsu_type_id                        = 2;
+    //@gotags: json:"fsuName" structs:"fsu_name"
+    string            fsu_name                           = 3;
+    //@gotags: json:"metadataId" structs:"metadata_id"
+    int32             metadata_id                        = 4;
+    //@gotags: json:"configureId" structs:"configure_id"
+    int32             configure_id                       = 5;
+    //@gotags: json:"agentId" structs:"agent_id"
+    int32             agent_id                           = 6;
+    //@gotags: json:"relatedMetadataId" structs:"related_metadata_id"
+    int32             related_metadata_id                = 7;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at                  = 8;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                   = 9;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at                  = 10;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                   = 11;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                   = 12;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at                  = 13;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                   = 14;
+}
+
+message FsuList{
+    repeated Fsu items = 1;
+}
+
+message DriverType{
+    //@gotags: json:"driverTypeId" gorm:"primary_key;AUTO_INCREMENT" structs:"driver_type_id"
+    int32             driver_type_id                     = 1;
+    //@gotags: json:"driverTypeName" structs:"driver_type_name"
+    string            driver_type_name                   = 2;
+    //@gotags: json:"driverTypeFileName" structs:"driver_type_file_name"
+    string            driver_type_file_name              = 3;
+    //@gotags: json:"driverTypeParameterMetadataId" structs:"driver_type_parameter_metadata_id"
+    int32             driver_type_parameter_metadata_id  = 4;
+    //@gotags: json:"driverTypeNote" structs:"driver_type_note"
+    string            driver_type_note                   = 5;
+    //@gotags: json:"driverTypeAcquisitePeriod" structs:"driver_type_acquisite_period"
+    int32             driver_type_acquisite_period       = 6;
+    //@gotags: json:"driverTypeTimeoutCount" structs:"driver_type_timeout_count"
+    int32             driver_type_timeout_count          = 7;
+    //@gotags: json:"driverTypeResetCount" structs:"driver_type_reset_count"
+    int32             driver_type_reset_count            = 8;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at                  = 9;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                   = 10;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at                  = 11;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                   = 12;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                   = 13;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at                  = 14;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                   = 15;
+}
+
+message DriverTypeList{
+    repeated DriverType items = 1;
+}
+
+message Driver{
+    //@gotags: json:"driverId" gorm:"primary_key;AUTO_INCREMENT" structs:"driver_id"
+    int32             driver_id                          = 1; 
+    //@gotags: json:"driverTypeId" structs:"driver_type_id"
+    int32             driver_type_id                     = 2;
+    //@gotags: json:"fsuId" structs:"fsu_id"
+    int32             fsu_id                             = 3;
+    //@gotags: json:"relatedFlagConfigureId" structs:"related_flag_configure_id"
+    int32             related_flag_configure_id          = 4;
+    //@gotags: json:"driverName" structs:"driver_name"
+    string            driver_name                        = 5;
+    //@gotags: json:"driverParameterMetadataId" structs:"driver_parameter_metadata_id"
+    int32             driver_parameter_metadata_id       = 6;
+    //@gotags: json:"driverParameterConfigureId" structs:"driver_parameter_configure_id"
+    int32             driver_parameter_configure_id      = 7;
+    //@gotags: json:"driverAcquisitePeriod" structs:"driver_acquisite_period"
+    int32             driver_acquisite_period            = 8;
+    //@gotags: json:"driverTimeoutCount" structs:"driver_timeout_count"
+    int32             driver_timeout_count               = 9;
+    //@gotags: json:"driverResetCount" structs:"driver_reset_count"
+    int32             driver_reset_count                 = 10;
+    //@gotags: json:"isWriteLog" structs:"is_write_log"
+    bool              is_write_log                       = 11;
+   //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+   google.protobuf.Timestamp created_at                  = 12;
+   //@gotags: json:"createdBy" structs:"created_by"
+   int32    created_by                                   = 13;
+   //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+   google.protobuf.Timestamp updated_at                  = 14;
+   //@gotags: json:"updatedBy" structs:"updated_by"
+   int32    updated_by                                   = 15;
+   //@gotags: json:"isDeleted" structs:"is_deleted"
+   bool     is_deleted                                   = 16;
+   //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+   google.protobuf.Timestamp deleted_at                  = 17;
+   //@gotags: json:"deletedBy" structs:"deleted_by"
+   int32    deleted_by                                   = 18;
+}
+
+message DriverList{
+    repeated Driver items = 1;
+}
+
+message Response{
+    bool                     is_success            = 1;
+    int32                    error_code            = 2;
+    string                   error_desc            = 3;
+    string                   error_raw             = 4;
+    google.protobuf.Any      result                = 5;
+}
+
+message Department{
+    //@gotags: json:"departmentId" gorm:"primary_key;AUTO_INCREMENT" structs:"department_id"
+    int32    department_id                        = 1;
+    //@gotags: json:"parentDepartmentId" structs:"parent_department_id"
+    int32    parent_department_id                 = 2;
+    //@gotags: json:"departmentName" structs:"department_name"
+    string    department_name                     = 3;
+    //@gotags: json:"positionAmongBrothers" structs:"position_among_brothers"
+    int32    position_among_brothers              = 4;
+    //@gotags: json:"leaderName" structs:"leader_name"
+    string    leader_name                         = 5;
+    //@gotags: json:"phone" structs:"phone"
+    string    phone                               = 6;
+    //@gotags: json:"Email" structs:"email"
+    string    email                               = 7;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 8;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 9;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 10;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 11;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 12;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 13;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 14;
+}
+
+message DepartmentList{
+    repeated Department items = 1;
+}
+
+message User{
+    //@gotags: json:"userId" gorm:"primary_key;AUTO_INCREMENT" structs:"user_id"
+    int32    user_id                              = 1;
+    //@gotags: json:"departmentId" structs:"department_id"
+    int32    department_id                        = 2;
+    //@gotags: json:"userName" structs:"user_name"
+    string    user_name                           = 3;
+    //@gotags: json:"userNick" structs:"user_nick"
+    string    user_nick                           = 4;
+    //@gotags: json:"phone" structs:"phone"
+    string    phone                               = 5;
+    //@gotags: json:"email" structs:"email"
+    string    email                               = 6;
+    //@gotags: json:"sex" structs:"sex"
+    int32       sex                               = 7;
+    //@gotags: json:"avatar" structs:"avatar"
+    string     avatar                             = 8;
+    //@gotags: json:"password" structs:"password"
+    string     password                           = 9;
+    //@gotags: json:"status" structs:"status"
+    int32      status                             = 10;
+    //@gotags: json:"remark" structs:"remark"
+    string     remark                             = 11;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 12;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 13;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 14;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 15;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 16;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 17;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 18;
+}
+
+message UserList{
+    repeated User items = 1;
+}
+
+message UserAlias{
+    //@gotags: json:"userId"
+    int32     user_id                              = 1;
+    //@gotags: json:"userNick"
+    string    user_nick                            = 2;
+}
+
+message UserAliasList{
+    repeated UserAlias items = 1;
+}
+
+message LoginRequest{
+    //@gotags: json:"userName"
+    string     user_name                          = 1;
+    //@gotags: json:"password"
+    string     password                           = 2;
+}
+
+message LoginResponse{
+    //@gotags: json:"token"
+    string     token                              = 1;
+    User       user                               = 2;
+}
+
+message UserVerify{
+    //@gotags: json:"userName"
+    string     user_name                          = 1;
+    //@gotags: json:"password"
+    string     password                           = 2;
+}
+
+message UserVerifyResponse{
+    User       user                               = 1;
+}
+
+message Menu{
+    //@gotags: json:"menuId" gorm:"primary_key" structs:"menu_id"
+    int32    menu_id                              = 1;
+    //@gotags: json:"parentMenuId" structs:"parent_menu_id"
+    int32    parent_menu_id                       = 2;
+    //@gotags: json:"menuName" structs:"menu_name"
+    string    menu_name                           = 3;
+    //@gotags: json:"menuAlias" structs:"menu_alias"
+    string    menu_alias                          = 4;
+    //@gotags: json:"menuLevel" structs:"menu_level"
+    int32    menu_level                           = 5;
+    //@gotags: json:"path" structs:"path"
+    string    path                                = 6;
+    //@gotags: json:"url" structs:"url"
+    string    url                                 = 7;
+    //@gotags: json:"component" structs:"component"
+    string    component                           = 8;
+    //@gotags: json:"title" structs:"title"
+    string    title                               = 9;
+    //@gotags: json:"icon" structs:"icon"
+    string    icon                                = 10;
+    //@gotags: json:"sidebar" structs:"sidebar"
+    string    sidebar                             = 11;
+    //@gotags: json:"isShow" structs:"is_show"
+    bool      is_show                             = 12;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 13;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 14;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 15;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 16;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 17;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 18;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 19;
+}
+
+message MenuList{
+    repeated Menu items = 1;
+}
+
+message Action{ 
+    //@gotags: json:"actionId" gorm:"primary_key;AUTO_INCREMENT" structs:"action_id"
+    int32    action_id                            = 1;
+    //@gotags: json:"actionName" structs:"action_name"
+    string    action_name                         = 2;
+    //@gotags: json:"actionAlias" structs:"action_alias"
+    string    action_alias                        = 3;
+    //@gotags: json:"menuIdForGroup" structs:"action_group_id"
+    int32    action_group_id                      = 4;
+    //@gotags: json:"url" structs:"url"
+    string    url                                 = 5;
+    //@gotags: json:"method" structs:"method"
+    string    method                              = 6;
+    //@gotags: json:"actionType" structs:"action_type"
+    int32    action_type                          = 7;
+    //@gotags: json:"affectedServer" structs:"affected_server"
+    int32    affected_server                      = 8;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 9;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 10;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 11;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 12;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 13;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 14;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 15;
+}
+
+message ActionList{
+    repeated Action items = 1;
+}
+
+message Role{
+    //@gotags: json:"roleId" gorm:"primary_key;AUTO_INCREMENT" structs:"role_id"
+    int32    role_id                              = 1;
+    //@gotags: json:"roleName" structs:"role_name"
+    string    role_name                           = 2;
+    //@gotags: json:"roleAlias" structs:"role_alias"
+    string    role_alias                          = 3;
+    //@gotags: json:"roleNote" structs:"role_note"
+    string    role_note                           = 4;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at          = 5;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                           = 6;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at          = 7;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                           = 8;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                           = 9;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at          = 10;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                           = 11;
+}
+
+message RoleList{
+    repeated Role items = 1;
+}
+
+message UserPolicy{
+    //@gotags: json:"userId"
+    int32    user_id                              = 1;
+    //@gotags: json:"actionId"
+    int32    action_id                            = 2;
+    //@gotags: json:"method"
+    string    method                              = 3;
+}
+
+message UserPolicyList{
+    repeated UserPolicy items = 1;
+}
+
+message GroupPolicy{
+    //@gotags: json:"groupId"
+    int32    group_id                              = 1;
+    //@gotags: json:"actionId"
+    int32    action_id                             = 2;
+    //@gotags: json:"method"
+    string    method                               = 3;
+}
+
+message GroupPolicyList{
+    repeated GroupPolicy items = 1;
+}
+
+message JoinGroup{
+    //@gotags: json:"userId"
+    int32    user_id                               = 1;
+    //@gotags: json:"groupId"
+    int32    group_id                              = 2;
+}
+
+message JoinGroupList{
+    repeated JoinGroup items = 1;
+}
+
+message GrantResult{
+    //@gotags: json:"isSuccess"
+    bool     is_success                            = 1;
+    //@gotags: json:"desc"
+    string   desc                                  = 2;                 
+}
+
+message ActionGroup{
+    //@gotags: json:"actionGroupId" gorm:"primary_key" structs:"action_group_id"
+    int32    action_group_id                             = 1;
+    //@gotags: json:"parentActoinGroupId" structs:"parent_action_group_id"
+    int32    parent_action_group_id                      = 2;
+    //@gotags: json:"actionGroupName" structs:"action_group_name"
+    string    action_group_name                          = 3;
+    //@gotags: json:"actionGroupAlias" structs:"action_group_alias"
+    string    action_group_alias                         = 4;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at                 = 5;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                                  = 6;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at                 = 7;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                                  = 8;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                                  = 9;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at                 = 10;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                                  = 11;
+}
+
+message ActionGroupList{
+    repeated ActionGroup items = 1;
+}
+
+message MenuAction{
+    //@gotags: json:"menuActionId" gorm:"primary_key;AUTO_INCREMENT" structs:"menu_action_id"
+    int32    menu_action_id                             = 1;
+    //@gotags: json:"menuName" structs:"menu_name"
+    string    menu_name                                 = 2;
+    //@gotags: json:"actionName" structs:"action_name"
+    string    action_name                               = 3;
+    //@gotags: json:"createdAt" gorm:"serializer:pbtimestamp;type:time" structs:"created_at"
+    google.protobuf.Timestamp created_at                = 4;
+    //@gotags: json:"createdBy" structs:"created_by"
+    int32    created_by                                 = 5;
+    //@gotags: json:"updatedAt" gorm:"serializer:pbtimestamp;type:time" structs:"updated_at"
+    google.protobuf.Timestamp updated_at                = 6;
+    //@gotags: json:"updatedBy" structs:"updated_by"
+    int32    updated_by                                 = 7;
+    //@gotags: json:"isDeleted" structs:"is_deleted"
+    bool     is_deleted                                 = 8;
+    //@gotags: json:"deletedAt" gorm:"serializer:pbtimestamp;type:time" structs:"deleted_at"
+    google.protobuf.Timestamp deleted_at                = 9;
+    //@gotags: json:"deletedBy" structs:"deleted_by"
+    int32    deleted_by                                 = 10;
+}
+
+message MenuActionList{
+    repeated MenuAction items = 1;
+}
+
+message UserActions {
+    repeated string actionName = 1;
+}
+
+message UserModifyPasword{
+    //@gotags: json:"userId" gorm:"primary_key;AUTO_INCREMENT" structs:"user_id"
+    int32    user_id                              = 1;
+    //@gotags: json:"oldPassword" structs:"old_password"
+    string   old_password                         = 2;
+    //@gotags: json:"newPassword" structs:"new_password"
+    string    new_password                        = 3;
+    //@gotags: json:"newRepeatPassword" structs:"new_repeat_password"
+    string    new_repeat_password                 = 4;
+}
+
+message SignalRawValue{
+    int32                     fsu_id                = 1;
+    int32                     configure_id          = 2;
+    google.protobuf.Timestamp value_occurred_time   = 3;
+    SignalValueStateEnum      signal_value_state    = 4;
+    SignalValueTypeEnum       signal_value_type     = 5;
+    int32                     digital_value         = 6;
+    double                    analog_value          = 7;
+    bytes                     string_value          = 8;
+}
+
+message ChannelValue {
+    int32 driver_id                                 = 1;
+    int32 x                                         = 2;
+    int32 y                                         = 3;
+    int32 z                                         = 4;
+    google.protobuf.Timestamp value_occurred_time   = 5;
+    SignalValueStateEnum      signal_value_state    = 6;
+    SignalValueTypeEnum       signal_value_type     = 7;
+    int32                     digital_value         = 8;
+    double                    analog_value          = 9;
+    string                    string_value          = 10;
+}
+
+message CommandParam{
+    string              control_command_serial_number = 1;
+    int32                     operator_user_id        = 2;
+    string                     operator_user_name     = 3;
+    int32                     signal_id              = 4;
+    ControlCommandTypeEnum    control_command_type   = 5;
+    int32                     delay                  = 6;
+    int32                     digital_value          = 7;
+    double                    analog_value           = 8;
+    string                    string_value           = 9;
+}
+
+message BottomCommandParam {
+    int32                     fsu_id                 = 1;
+    int32                     configure_id           = 2;
+    google.protobuf.Timestamp operate_time           = 3;
+    ControlCommandTypeEnum    control_command_type   = 4;
+    int32                     delay                  = 5;
+    int32                     digital_value          = 6;
+    double                    analog_value           = 7;
+    bytes                     string_value           = 8;
+}
+
+message BottomControlCommandRequest {
+    bytes               operator_user_id               = 1;
+    bytes               operator_user_name             = 2;
+    bytes               control_command_serial_number  = 3;
+    BottomCommandParam  control_param                  = 4;
+    BottomCommandParam  recover_param                  = 5;
+}
+
+message CenterCommandParam {
+    int32                     driver_id              = 1;
+    int32                     x                      = 2;
+    int32                     y                      = 3;
+    int32                     z                      = 4;
+    google.protobuf.Timestamp operate_time           = 7;
+    ControlCommandTypeEnum    control_command_type   = 8;
+    int32                     delay                  = 9;
+    int32                     digital_value          = 10;
+    double                    analog_value           = 11;
+    bytes                     string_value           = 12;
+}
+
+message CenterControlCommandRequest {
+    bytes               operator_user_id               = 1;
+    bytes               operator_user_name             = 2;
+    bytes               control_command_serial_number  = 3;
+    CenterCommandParam  control_param                  = 4;
+    CenterCommandParam  recover_param                  = 5;
+}
+
+message ControlCommandReport {
+    bytes                        control_command_serial_number        = 1;
+    google.protobuf.Timestamp    control_command_report_occurred_time = 2;
+    ControlCommandResultEnum     control_command_result_type          = 3;
+    bytes                        control_command_execute_description  = 4;
+}
+
+message FSUStatus {
+    //@gotags: json:"fsuId"
+    int32         fsu_id            = 1;
+    //@gotags: json:"fsuName"
+    string        fsu_name          = 2;
+    //@gotags: json:"fsuType"
+    string        fsu_type          = 3;
+    //@gotags: json:"subChannelName"
+    string        sub_channel_name  = 4;
+    //@gotags: json:"lastReceiveTime"
+    int64         last_receive_time = 5;
+    //@gotags: json:"fsuStatus"
+    int32         fsu_status        = 6;
+    //@gotags: json:"subChannelStatus"
+    int32         sub_channel_status= 7;
+    //@gotags: json:"statusDesc"
+    string        status_desc       = 8;
+}
+
+message FSUStatusList{
+    repeated FSUStatus items = 1;
+}
+
+service SignalRawValueService{
+    rpc BottomRawValueStream (stream SignalRawValue) returns (google.protobuf.Empty);
+    rpc CenterChannelValueStream(stream ChannelValue) returns (google.protobuf.Empty);
+    rpc FSUStatusStream(stream FSUStatus) returns (google.protobuf.Empty);
+    rpc BottomControlCommandStream(stream ControlCommandReport) returns (stream BottomControlCommandRequest);
+    rpc CenterControlCommandStream(stream ControlCommandReport) returns (stream CenterControlCommandRequest);
+}
+
+message DriverToFsu{
+    int32   driver_id    = 1;
+    int32   fsu_id       = 2;
+    int32   configure_id = 3;
+    bytes   request      = 4;
+}
+
+message FsuToDriver{
+    int32   driver_id     = 1;
+    int32   fsu_id        = 2;
+    bytes   response      = 3;
+}
+
+service  CenterAnalysePayload{
+    rpc PayloadStream(stream DriverToFsu) returns(stream FsuToDriver);
+}
+
+message RealdataRequest {
+    repeated int32 signal_ids = 1;
+}
+
+message FsuStatusRequest {
+    repeated int32 fsu_ids = 1;
+}
+
+message WebsocketMessage {
+    string                   message_type = 1;
+    google.protobuf.Any      message      = 2;
+}
+
+message OperationLog {
+    //@gotags: json:"logId" gorm:"primary_key;AUTO_INCREMENT" structs:"log_id"
+    int32    log_id                               = 1;
+    //@gotags: json:"userId" structs:"user_id"
+    int32    user_id                              = 2;
+    //@gotags: json:"userNick" structs:"user_nick"
+    string    user_nick                           = 3;
+    //@gotags: json:"actionId" structs:"action_id"
+    int32    action_id                            = 4;
+    //@gotags: json:"actionName" structs:"action_name"
+    string    action_name                         = 5;
+    //@gotags: json:"actionAlias" structs:"action_alias"
+    string    action_alias                        = 6;
+    //@gotags: json:"actionType" structs:"action_type"
+    int32    action_type                          = 7;
+    //@gotags: json:"operationTime" gorm:"serializer:pbtimestamp;type:time" structs:"operation_time"
+    google.protobuf.Timestamp operation_time      = 8;
+}
+
+message OperationLogList {
+    repeated OperationLog items = 1;
+}

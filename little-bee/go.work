@@ -1,0 +1,16 @@
+go 1.18
+
+use (
+    ./message
+	./util
+	./dao
+	./service
+	./controller
+	./agent/grpc
+	./mqtt
+	./agent/fsu/fsuserver
+	./agent/driverloader
+	./agent/fsu/fsuinstance
+	./agent/realdata
+	./agent/agent
+)

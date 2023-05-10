@@ -1,0 +1,80 @@
+syntax = "proto3";
+package message;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./message/querycommand";
+
+enum PredicateTypeEnum {
+    PREDICATE_TYPE_UNKNOWN     = 0;
+    PREDICATE_TYPE_EQ          = 1;
+    PREDICATE_TYPE_LT          = 2;
+    PREDICATE_TYPE_GT          = 3;
+    PREDICATE_TYPE_LE          = 4;
+    PREDICATE_TYPE_GE          = 5;
+    PREDICATE_TYPE_BETWEEN     = 6;
+    PREDICATE_TYPE_LIKE        = 7;
+    PREDICATE_TYPE_NE          = 8;
+    PREDICATE_TYPE_IS_NULL     = 9;
+    PREDICATE_TYPE_IS_NOT_NULL = 10;
+    PREDICATE_TYPE_IN          = 11;
+    PREDICATE_TYPE_NOT_IN      = 12;
+}
+
+enum ConnectionTypeEnum {
+    CONNECT_TYPE_UNKNOWN = 0;
+    CONNECT_TYPE_AND     = 1;
+    CONNECT_TYPE_OR      = 2;
+}
+
+enum FieldValueTypeEnum{
+    FIELD_VALUE_TYPE_UNKNOWN   = 0;
+    FIELD_VALUE_TYPE_INTEGER   = 1;
+    FIELD_VALUE_TYPE_FLOAT     = 2;
+    FIELD_VALUE_TYPE_STRING    = 3;
+    FIELD_VALUE_TYPE_TIME      = 4;
+}
+  
+message FieldValue{
+    FieldValueTypeEnum        field_type           = 1;
+    int32                     field_value_integer  = 2;
+    float                     field_value_float    = 3;
+    string                    field_value_string   = 4;
+    google.protobuf.Timestamp field_value_time     = 5;
+}
+
+message Predicate {
+    PredicateTypeEnum   predicate_type    = 1;
+    string              field_name        = 2;
+    repeated FieldValue field_values      = 3;
+}
+  
+message Connection {
+    repeated ConnectionTypeEnum  predicates_connection_type  = 1;
+    repeated Predicate           predicates       = 2;
+}
+
+message Filter {
+    repeated Connection          connection      = 1;
+    repeated ConnectionTypeEnum  connection_type = 2;
+}
+  
+enum OrderTypeEnum {
+    ORDER_TYPE_UNKNOWN   = 0;
+    ORDER_TYPE_ASC       = 1;
+    ORDER_TYPE_DESC      = 2;
+}
+  
+message OrderBy {
+    string        field_name = 1;
+    OrderTypeEnum order      = 2;
+}
+  
+message QueryCommand {
+    Filter            filter        = 1;
+    repeated OrderBy  order_by      = 2;
+    int32             page_number   = 3;
+    int32             rows_per_page = 4;
+}
+
+  
