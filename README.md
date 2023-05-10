@@ -17,7 +17,7 @@ little-bee是一个部署简单，运维容易的物联网平台，后端采用g
 
 #### 编译教程（windows）
 
-1. 后端安装好golang开发环境
+1. 后端安装好golang开发环境，配置好protobuf环境变量
 
 2. 在项目当前目录下运行下面脚本编译后端可执行程序:
 
@@ -56,11 +56,25 @@ little-bee是一个部署简单，运维容易的物联网平台，后端采用g
    在bin\service目录下运行service.exe
 
    在bin\agent目录下运行realdata.exe fsuserver.exe driverloader.exe(这三个进程由agent.exe管理，agent没有开发完成，目前直接启动)
+   
+#### 前端界面截图
+
+![登录](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/login.png)
+
+![实时数据](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/realdata.png)
+
+![实时告警](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/alarm.png)
+
+![远程控制](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/control.png)
+
+![监控量配置](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/config.png)
+
+![系统设置](https://gitee.com/asmallstat/little-bee/raw/master/frontend/console/public/screenshot/setting.png)
 
 #### 参与贡献
 
 1.  Fork 本仓库
-2.  新建 Feat_develop 分支
+2.  新建 Feat_feature 分支
 3.  提交代码
 4.  新建 Pull Request
 4.  欢迎加入qq群：539046464
