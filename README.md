@@ -16,7 +16,7 @@ little-bee是一个部署简单，运维容易的物联网平台，后端采用g
    
 2. 系统架构图
 
-   ![系统架构图](https://gitee.com/asmallstar/little-bee/blob/master/little-bee/agent/agent/architecture/architecture.png)
+   ![系统架构图](https://gitee.com/asmallstar/little-bee/raw/master/little-bee/agent/agent/architecture/architecture.png)
 
 
 
