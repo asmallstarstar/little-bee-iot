@@ -13,6 +13,11 @@ little-bee是一个部署简单，运维容易的物联网平台，后端采用g
    配置库：mysql
 
    被监控设备驱动: c
+   
+2. 系统架构图
+
+   ![系统架构图](https://gitee.com/asmallstar/little-bee/blob/master/little-bee/agent/agent/architecture/architecture.png)
+
 
 
 #### 编译教程（windows）
