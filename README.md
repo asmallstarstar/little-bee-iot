@@ -18,7 +18,11 @@ little-bee是一个部署简单，运维容易的物联网平台，后端采用g
 
    ![系统架构图](https://gitee.com/asmallstar/little-bee/raw/master/little-bee/agent/agent/architecture/architecture.png)
 
+#### 项目特点
 
+1. 访问控制RBAC，基于API的细粒度访问权限控制
+2. 网关集成，智能设备驱动的参数使用元数据形式，易于扩充
+3. 绿色软件的形式部署，易于使用
 
 #### 编译教程（windows）
 
